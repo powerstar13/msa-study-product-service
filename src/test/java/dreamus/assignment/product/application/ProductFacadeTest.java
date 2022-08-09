@@ -3,6 +3,7 @@ package dreamus.assignment.product.application;
 import dreamus.assignment.product.application.dto.ProductCommand;
 import dreamus.assignment.product.domain.service.ProductService;
 import dreamus.assignment.product.domain.service.dto.ProductDTO;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.UUID;
+
 import static dreamus.assignment.product.infrastructure.factory.TestFactory.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -53,6 +57,21 @@ class ProductFacadeTest {
 
         StepVerifier.create(result.log())
             .expectNextCount(0)
+            .verifyComplete();
+    }
+
+    @DisplayName("레이아웃 상품 정보 조회")
+    @Test
+    void layoutProductInfo() {
+
+        given(productService.layoutProductInfo(anyString())).willReturn(layoutProductInfoDTOMono());
+
+        Mono<ProductDTO.LayoutProductInfo> result = productService.layoutProductInfo(UUID.randomUUID().toString());
+
+        verify(productService).layoutProductInfo(anyString());
+
+        StepVerifier.create(result.log())
+            .assertNext(Assertions::assertNotNull)
             .verifyComplete();
     }
 }

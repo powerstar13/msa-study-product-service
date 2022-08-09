@@ -6,9 +6,12 @@ import dreamus.assignment.product.infrastructure.exception.status.ExceptionMessa
 import dreamus.assignment.product.presentation.request.LayoutProductModifyRequest;
 import dreamus.assignment.product.presentation.request.LayoutProductRegisterRequest;
 import dreamus.assignment.product.presentation.request.ProductRequestMapper;
+import dreamus.assignment.product.presentation.response.LayoutProductInfoResponse;
 import dreamus.assignment.product.presentation.response.LayoutProductRegisterResponse;
+import dreamus.assignment.product.presentation.response.ProductResponseMapper;
 import dreamus.assignment.product.presentation.shared.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -24,6 +27,7 @@ public class ProductHandler {
 
     private final ProductFacade productFacade;
     private final ProductRequestMapper productRequestMapper;
+    private final ProductResponseMapper productResponseMapper;
 
     /**
      * 레이아웃 상품 등록
@@ -65,5 +69,23 @@ public class ProductHandler {
                             .body(Mono.just(new SuccessResponse()), SuccessResponse.class)
                     );
             });
+    }
+
+    /**
+     * 레이아웃 상품 정보 조회
+     * @param serverRequest: 레이아웃 식별키
+     * @return ServerResponse: 레이아웃 상품 정보
+     */
+    @NotNull
+    public Mono<ServerResponse> layoutProductInfo(ServerRequest serverRequest) {
+
+        String layoutId = serverRequest.pathVariable("layoutId"); // 레이아웃 식별키 추출
+        if (StringUtils.isBlank(layoutId)) throw new BadRequestException(ExceptionMessage.IsRequiredLayoutId.getMessage());
+
+        Mono<LayoutProductInfoResponse> response = productFacade.layoutProductInfo(layoutId)
+            .flatMap(layoutProductInfo -> Mono.just(productResponseMapper.of(layoutProductInfo)));
+
+        return ok().contentType(MediaType.APPLICATION_JSON)
+            .body(response, LayoutProductInfoResponse.class);
     }
 }

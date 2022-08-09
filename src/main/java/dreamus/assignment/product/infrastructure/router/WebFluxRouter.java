@@ -38,6 +38,10 @@ public class WebFluxRouter implements WebFluxConfigurer {
                         .PUT(RouterPathPattern.LAYOUT_PRODUCT_MODIFY.getPath(), productHandler::layoutProductModify) // 레이아웃 상품 수정
                 )
             )
+            .path(RouterPathPattern.LAYOUT_PRODUCT_ROOT.getPath(), builder ->
+                builder
+                    .GET(RouterPathPattern.LAYOUT_PRODUCT_INFO.getPath(), productHandler::layoutProductInfo) // 레이아웃 상품 정보 조회
+            )
             .build();
     }
 }

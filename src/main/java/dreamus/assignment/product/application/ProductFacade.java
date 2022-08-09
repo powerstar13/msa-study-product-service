@@ -29,4 +29,13 @@ public class ProductFacade {
     public Mono<Void> layoutProductModify(ProductCommand.LayoutProductModify command) {
         return productService.layoutProductModify(command);
     }
+
+    /**
+     * 레이아웃 상품 정보 조회
+     * @param layoutId: 레이아웃 식별키
+     * @return LayoutProductInfo: 레이아웃 상품 정보
+     */
+    public Mono<ProductDTO.LayoutProductInfo> layoutProductInfo(String layoutId) {
+        return productService.layoutProductInfo(layoutId);
+    }
 }

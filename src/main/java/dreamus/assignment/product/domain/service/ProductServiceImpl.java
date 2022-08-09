@@ -2,6 +2,7 @@ package dreamus.assignment.product.domain.service;
 
 import dreamus.assignment.product.application.dto.ProductCommand;
 import dreamus.assignment.product.domain.service.dto.ProductDTO;
+import dreamus.assignment.product.domain.service.dto.ProductDTOMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -12,6 +13,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductReader productReader;
     private final ProductStore productStore;
+    private final ProductDTOMapper productDTOMapper;
 
     /**
      * 레이아웃 상품 등록
@@ -36,5 +38,17 @@ public class ProductServiceImpl implements ProductService {
 
         return productReader.findLayoutProductAggregate(command.getLayoutId()) // 1. 레이아웃 상품 조회
             .flatMap(layoutProductAggregate -> productStore.layoutProductModify(layoutProductAggregate, command)); // 2. 레이아웃 상품 수정
+    }
+
+    /**
+     * 레이아웃 상품 정보 조회
+     * @param layoutId: 레이아웃 식별키
+     * @return LayoutProductInfo: 레이아웃 상품 정보
+     */
+    @Override
+    public Mono<ProductDTO.LayoutProductInfo> layoutProductInfo(String layoutId) {
+
+        return productReader.findLayoutProductAggregate(layoutId) // 레이아웃 상품 조회
+            .flatMap(layoutProductAggregate -> Mono.just(productDTOMapper.of(layoutProductAggregate.getLayout(), layoutProductAggregate.getProductList())));
     }
 }

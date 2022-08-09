@@ -38,3 +38,13 @@ include::{snippets}/layout-product/modify/request-fields.adoc[]
 === Response
 include::{snippets}/layout-product/modify/response-fields.adoc[]
 include::{snippets}/layout-product/modify/response-body.adoc[]
+
+[[layout-product-info]]
+== 레이아웃 상품 정보 조회
+=== Http
+include::{snippets}/layout-product/info/{layoutId}/http-request.adoc[]
+=== Request
+include::{snippets}/layout-product/info/{layoutId}/path-parameters.adoc[]
+=== Response
+include::{snippets}/layout-product/info/{layoutId}/response-fields.adoc[]
+include::{snippets}/layout-product/info/{layoutId}/response-body.adoc[]

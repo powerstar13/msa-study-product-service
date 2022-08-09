@@ -460,6 +460,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_response_2">Response</a></li>
 </ul>
 </li>
+<li><a href="#layout-product-info">레이아웃 상품 정보 조회</a>
+<ul class="sectlevel2">
+<li><a href="#_http_3">Http</a></li>
+<li><a href="#_request_3">Request</a></li>
+<li><a href="#_response_3">Response</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -589,7 +596,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
   "rt" : 201,
   "rtMsg" : "Created",
-  "layoutId" : "79889033-953d-4793-963d-daa7d94f3883"
+  "layoutId" : "ea54a28e-3dbe-49d6-80e6-0c4c316dcfe3"
 }</code></pre>
 </div>
 </div>
@@ -610,14 +617,14 @@ Content-Length: 343
 Host: localhost:8080
 
 {
-  "layoutId" : "7cc78c54-f09c-41cd-aba3-715be80e11ec",
+  "layoutId" : "544f66d8-4a07-4bac-a342-cb255befdae2",
   "name" : "레이아웃 이름",
   "productList" : [ {
-    "productId" : "66da5cbc-db32-4fb5-be96-69f13f57561b",
+    "productId" : "2760edea-c8f0-4f53-aa2e-dd071f1faa8f",
     "name" : "상품명",
     "price" : 100
   }, {
-    "productId" : "19e853fa-e0f2-4375-b668-4594c75ee99b",
+    "productId" : "a8c523e7-ed02-41dd-acc6-e81506a25a53",
     "name" : "상품명",
     "price" : 100
   } ]
@@ -737,11 +744,152 @@ Host: localhost:8080
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="layout-product-info"><a class="link" href="#layout-product-info">레이아웃 상품 정보 조회</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_3"><a class="link" href="#_http_3">Http</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /layout-product/info/0c3d1c1e-fa3a-42b4-b006-2a621b41f48b HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_request_3"><a class="link" href="#_request_3">Request</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /layout-product/info/{layoutId}</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">layoutId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">레이아웃 식별키</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_3"><a class="link" href="#_response_3">Response</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rtMsg</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 메시지</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">layoutId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">레이아웃 식별키</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">레이아웃 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">productList[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상품 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">productList[].productId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상품 식별키</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">productList[].name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상품명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">productList[].price</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">금액</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
+  "rt" : 200,
+  "rtMsg" : "OK",
+  "layoutId" : "6f64414b-c62a-4a16-a0d7-183d3ed8b2a7",
+  "name" : "레이아웃 이름",
+  "productList" : [ {
+    "productId" : "d08a437a-443f-4907-beb7-510595152a68",
+    "name" : "상품명",
+    "price" : 100
+  }, {
+    "productId" : "4c764c9d-8e09-4ab0-ad11-f6c19bd6344b",
+    "name" : "상품명",
+    "price" : 100
+  } ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version <br>
-Last updated 2022-08-09 16:18:19 +0900
+Last updated 2022-08-09 17:34:40 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
