@@ -9,6 +9,7 @@ public enum ExceptionMessage {
 
     IsRequiredRequest("BadRequestException", "Request를 전달해주세요."),
     IsRequiredLayoutId("BadRequestException", "레이아웃 식별키를 전달해주세요."),
+    IsRequiredLayoutName("BadRequestException", "레이아웃 이름을 입력해주세요."),
     IsRequiredProductId("BadRequestException", "상품 식별키를 전달해주세요."),
 
     RegisterFailLayout("RegisterFailException", "레이아웃 등록에 실패했습니다. 관리자에게 문의 바랍니다."),
