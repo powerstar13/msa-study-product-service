@@ -21,7 +21,7 @@ public class Product extends CommonDateEntity { // 상품
     private String productId; // 상품 식별키
 
     @Column(value = "name")
-    private String name; // 레이아웃 이름
+    private String name; // 상품 이름
 
     @Column(value = "price")
     private int price; // 금액
