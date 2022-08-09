@@ -1,0 +1,50 @@
+# 상품 서비스 API Test
+
+### 레이아웃 상품 등록
+POST http://localhost:8080/layout-product/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "PC 무제한 듣기",
+  "productList": [
+    {
+      "name": "정기결제",
+      "price": 7900
+    },
+    {
+      "name": "1개월권",
+      "price": 8000
+    }
+  ]
+}
+
+> {% // response handler
+client.test("Request executed successfully", function() {
+    client.assert(response.status === 200, "Response status is not 200");
+    client.global.set("layoutId", response.body.layoutId);
+    client.log("layoutId >>> " + client.global.get("layoutId"));
+});
+%}
+
+### 레이아웃 상품 수정
+PUT http://localhost:8080/layout-product/modify
+Content-Type: application/json
+Accept: application/json
+
+{
+  "layoutId": "492bc213-5c47-422f-9390-1b0c2206bc05",
+  "name": "PC 무제한 듣기",
+  "productList": [
+    {
+      "productId": "108358d3-72cc-47eb-8fb2-d1635c95ab09",
+      "name": "정기결제",
+      "price": 7900
+    },
+    {
+      "productId": "108358d3-72cc-47eb-8fb2-d1635c95ab11",
+      "name": "1개월권",
+      "price": 8000
+    }
+  ]
+}
