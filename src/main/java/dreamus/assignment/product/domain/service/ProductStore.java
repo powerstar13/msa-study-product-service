@@ -10,4 +10,6 @@ public interface ProductStore {
     Mono<Layout> layoutProductRegister(ProductCommand.LayoutProductRegister command);
 
     Mono<Void> layoutProductModify(ProductDTO.LayoutProductAggregate aggregate, ProductCommand.LayoutProductModify command);
+
+    Mono<Void> layoutProductDelete(ProductDTO.LayoutProductAggregate aggregate);
 }

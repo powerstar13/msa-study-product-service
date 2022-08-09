@@ -473,6 +473,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_response_4">Response</a></li>
 </ul>
 </li>
+<li><a href="#layout-product-delete">레이아웃 상품 삭제</a>
+<ul class="sectlevel2">
+<li><a href="#_http_5">Http</a></li>
+<li><a href="#_request_4">Request</a></li>
+<li><a href="#_response_5">Response</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -602,7 +609,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
   "rt" : 201,
   "rtMsg" : "Created",
-  "layoutId" : "f5bf8ead-40f0-472b-a597-912059d581c2"
+  "layoutId" : "dbb8eeef-b125-46ba-9911-fdc8cdeca677"
 }</code></pre>
 </div>
 </div>
@@ -623,14 +630,14 @@ Content-Length: 343
 Host: localhost:8080
 
 {
-  "layoutId" : "3a2dc856-07f8-4956-adf9-e0e09e2fb035",
+  "layoutId" : "fee279f8-c94e-47ba-8209-069359e93945",
   "name" : "레이아웃 이름",
   "productList" : [ {
-    "productId" : "7dba27cd-430b-4702-a35c-48980d707109",
+    "productId" : "98cbc7c4-0c43-4eea-8d60-5190505f2d6f",
     "name" : "상품명",
     "price" : 100
   }, {
-    "productId" : "283d2548-e30f-4344-b231-3f69503ad49e",
+    "productId" : "e247631a-5ce4-4c56-a4fd-7831d8087cc3",
     "name" : "상품명",
     "price" : 100
   } ]
@@ -757,7 +764,7 @@ Host: localhost:8080
 <h3 id="_http_3"><a class="link" href="#_http_3">Http</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /layout-product/info/d7b6232d-f184-488a-af22-21c74d4660f0 HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /layout-product/info/9ecd332f-530d-46fb-8e92-611125dcdd51 HTTP/1.1
 Accept: application/json
 Host: localhost:8080</code></pre>
 </div>
@@ -874,14 +881,14 @@ Host: localhost:8080</code></pre>
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
   "rt" : 200,
   "rtMsg" : "OK",
-  "layoutId" : "53626951-b438-40bc-a7ed-ae30fe450669",
+  "layoutId" : "ad27381b-ba35-430d-a970-024e57bca836",
   "name" : "레이아웃 이름",
   "productList" : [ {
-    "productId" : "9a760b49-8c05-44bb-8865-f6b9e54a92ab",
+    "productId" : "347a9938-7995-45ae-aade-750d8b89be01",
     "name" : "상품명",
     "price" : 100
   }, {
-    "productId" : "9080f486-1b5e-46b5-aea1-1ff4448f05e2",
+    "productId" : "bab46daf-9afb-4e8a-914f-01e943ac57a7",
     "name" : "상품명",
     "price" : 100
   } ]
@@ -995,26 +1002,26 @@ Host: localhost:8080</code></pre>
   "rt" : 200,
   "rtMsg" : "OK",
   "layoutProductList" : [ {
-    "layoutId" : "265b59b7-70c8-4183-b057-9ffcf527f8e9",
+    "layoutId" : "301e95db-d79b-487b-9d30-713d21105ad5",
     "name" : "레이아웃 이름",
     "productList" : [ {
-      "productId" : "7e0ef4b8-c13d-4841-9ae8-b45f0eb85a8c",
+      "productId" : "1d7fe9d1-97a4-4c6d-9ec3-9b4a521f1b85",
       "name" : "상품명",
       "price" : 100
     }, {
-      "productId" : "63f5deae-5a5f-4012-84df-614dc4da4156",
+      "productId" : "3d054205-4fd7-4a0b-8df3-e220151cf1b0",
       "name" : "상품명",
       "price" : 100
     } ]
   }, {
-    "layoutId" : "f14558b0-1896-4354-8668-3f19d67ee55a",
+    "layoutId" : "c8438e44-2482-4238-8eee-72c0f9ecf1a9",
     "name" : "레이아웃 이름",
     "productList" : [ {
-      "productId" : "1c83e485-a49e-4411-a73b-03b5a06e249e",
+      "productId" : "cdf179f4-b044-407d-95ec-a075a19b33cf",
       "name" : "상품명",
       "price" : 100
     }, {
-      "productId" : "dec54fc9-0544-4f52-98ca-8f5e838f88be",
+      "productId" : "5623a0e1-72da-4e10-9ad1-61f2126106ba",
       "name" : "상품명",
       "price" : 100
     } ]
@@ -1025,11 +1032,99 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="layout-product-delete"><a class="link" href="#layout-product-delete">레이아웃 상품 삭제</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_http_5"><a class="link" href="#_http_5">Http</a></h3>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /layout-product/delete/45914f43-52ba-4304-941c-3b7a4f5a0fe0 HTTP/1.1
+Accept: application/json
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_request_4"><a class="link" href="#_request_4">Request</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 2. /layout-product/delete/{layoutId}</caption>
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">layoutId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">레이아웃 식별키</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_response_5"><a class="link" href="#_response_5">Response</a></h3>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">필드명</th>
+<th class="tableblock halign-left valign-top">타입</th>
+<th class="tableblock halign-left valign-top">필수값</th>
+<th class="tableblock halign-left valign-top">양식</th>
+<th class="tableblock halign-left valign-top">설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 코드</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">rtMsg</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 메시지</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
+  "rt" : 200,
+  "rtMsg" : "OK"
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version <br>
-Last updated 2022-08-09 18:24:46 +0900
+Last updated 2022-08-09 19:10:42 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

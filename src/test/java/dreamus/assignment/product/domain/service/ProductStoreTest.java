@@ -64,4 +64,21 @@ class ProductStoreTest {
             .expectNextCount(0)
             .verifyComplete();
     }
+
+    @DisplayName("레이아웃 상품 삭제")
+    @Test
+    void layoutProductDelete() {
+
+        given(productRepository.deleteAll(anyList())).willReturn(Mono.empty());
+        given(layoutRepository.delete(any(Layout.class))).willReturn(Mono.empty());
+
+        Mono<Void> result = productStore.layoutProductDelete(layoutProductAggregateDTO());
+
+        verify(productRepository).deleteAll(anyList());
+        verify(layoutRepository).delete(any(Layout.class));
+
+        StepVerifier.create(result.log())
+            .expectNextCount(0)
+            .verifyComplete();
+    }
 }

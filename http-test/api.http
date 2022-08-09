@@ -34,17 +34,17 @@ Accept: application/json
 
 {
   "layoutId": "492bc213-5c47-422f-9390-1b0c2206bc05",
-  "name": "PC 무제한 듣기",
+  "name": "모바일 무제한 듣기",
   "productList": [
     {
       "productId": "108358d3-72cc-47eb-8fb2-d1635c95ab09",
       "name": "정기결제",
-      "price": 7900
+      "price": 8900
     },
     {
       "productId": "108358d3-72cc-47eb-8fb2-d1635c95ab11",
       "name": "1개월권",
-      "price": 8000
+      "price": 9000
     }
   ]
 }
@@ -56,4 +56,9 @@ Accept: application/json
 
 ### 레이아웃 상품 목록 조회
 GET http://localhost:8080/layout-product/list
+Accept: application/json
+
+### 레이아웃 상품 삭제
+// 레이아웃 상품 등록 API를 통해 얻은 {layoutId} 사용
+DELETE http://localhost:8080/layout-product/delete/{{layoutId}}
 Accept: application/json

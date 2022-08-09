@@ -56,3 +56,13 @@ include::{snippets}/layout-product/list/http-request.adoc[]
 === Response
 include::{snippets}/layout-product/list/response-fields.adoc[]
 include::{snippets}/layout-product/list/response-body.adoc[]
+
+[[layout-product-delete]]
+== 레이아웃 상품 삭제
+=== Http
+include::{snippets}/layout-product/delete/{layoutId}/http-request.adoc[]
+=== Request
+include::{snippets}/layout-product/delete/{layoutId}/path-parameters.adoc[]
+=== Response
+include::{snippets}/layout-product/delete/{layoutId}/response-fields.adoc[]
+include::{snippets}/layout-product/delete/{layoutId}/response-body.adoc[]

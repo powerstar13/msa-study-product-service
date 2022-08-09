@@ -34,6 +34,7 @@ import static dreamus.assignment.product.infrastructure.restdocs.RestdocsDocumen
 import static dreamus.assignment.product.infrastructure.restdocs.RestdocsDocumentUtil.responsePrettyPrint;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -154,7 +155,7 @@ class ProductHandlerTest extends WebFluxSharedHandlerTest {
     @Test
     void layoutProductInfo() {
         // given
-        given(productFacade.layoutProductInfo(any(String.class))).willReturn(layoutProductInfoDTOMono());
+        given(productFacade.layoutProductInfo(anyString())).willReturn(layoutProductInfoDTOMono());
         given(productResponseMapper.of(any(ProductDTO.LayoutProductInfo.class))).willReturn(layoutProductInfoResponse());
 
         // when
@@ -188,7 +189,7 @@ class ProductHandlerTest extends WebFluxSharedHandlerTest {
         FluxExchangeResult<LayoutProductInfoResponse> flux = result.returnResult(LayoutProductInfoResponse.class);
 
         // then
-        verify(productFacade).layoutProductInfo(any(String.class));
+        verify(productFacade).layoutProductInfo(anyString());
         verify(productResponseMapper).of(any(ProductDTO.LayoutProductInfo.class));
 
         StepVerifier.create(flux.getResponseBody().log())
@@ -243,6 +244,44 @@ class ProductHandlerTest extends WebFluxSharedHandlerTest {
                 assertEquals(HttpStatus.OK.value(), response.getRt());
                 assertNotNull(response.getLayoutProductList());
             }))
+            .verifyComplete();
+    }
+
+    @DisplayName("레이아웃 상품 삭제")
+    @Test
+    void layoutProductDelete() {
+        // given
+        given(productFacade.layoutProductDelete(anyString())).willReturn(Mono.empty());
+
+        // when
+        final String URI = RouterPathPattern.LAYOUT_PRODUCT_DELETE.getFullPath();
+        WebTestClient.ResponseSpec result = webClient
+            .delete()
+            .uri(URI, UUID.randomUUID().toString())
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange();
+
+        result.expectStatus().isOk()
+            .expectBody()
+            .consumeWith(document(URI,
+                requestPrettyPrint(),
+                responsePrettyPrint(),
+                pathParameters(
+                    parameterWithName("layoutId").description("레이아웃 식별키")
+                ),
+                responseFields(
+                    fieldWithPath("rt").type(JsonFieldType.NUMBER).description("결과 코드"),
+                    fieldWithPath("rtMsg").type(JsonFieldType.STRING).description("결과 메시지")
+                )
+            ));
+
+        FluxExchangeResult<SuccessResponse> flux = result.returnResult(SuccessResponse.class);
+
+        // then
+        verify(productFacade).layoutProductDelete(anyString());
+
+        StepVerifier.create(flux.getResponseBody().log())
+            .assertNext(response -> assertEquals(HttpStatus.OK.value(), response.getRt()))
             .verifyComplete();
     }
 }
