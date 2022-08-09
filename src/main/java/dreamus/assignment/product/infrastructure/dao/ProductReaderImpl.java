@@ -2,6 +2,7 @@ package dreamus.assignment.product.infrastructure.dao;
 
 import dreamus.assignment.product.domain.service.ProductReader;
 import dreamus.assignment.product.domain.service.dto.ProductDTO;
+import dreamus.assignment.product.domain.service.dto.ProductDTOMapper;
 import dreamus.assignment.product.infrastructure.exception.status.AlreadyDataException;
 import dreamus.assignment.product.infrastructure.exception.status.ExceptionMessage;
 import dreamus.assignment.product.infrastructure.exception.status.NotFoundDataException;
@@ -15,6 +16,7 @@ public class ProductReaderImpl implements ProductReader {
 
     private final LayoutRepository layoutRepository;
     private final ProductRepository productRepository;
+    private final ProductDTOMapper productDTOMapper;
 
     /**
      * 이미 존재하는 레이아웃인지 확인
@@ -33,18 +35,35 @@ public class ProductReaderImpl implements ProductReader {
     }
 
     /**
-     * 레이아웃 상품 조회
+     * 레이아웃 상품 정보 조회
      * @param layoutId: 레이아웃 식별키
      * @return LayoutProductAggregate: 레이아웃 상품 애그리거트
      */
     @Override
     public Mono<ProductDTO.LayoutProductAggregate> findLayoutProductAggregate(String layoutId) {
 
-        return layoutRepository.findById(layoutId)
+        return layoutRepository.findById(layoutId) // 1. 레이아웃 정보 조회
             .switchIfEmpty(Mono.error(new NotFoundDataException(ExceptionMessage.NotFoundLayout.getMessage())))
-            .zipWith(productRepository.findAllByLayoutId(layoutId).collectList())
+            .zipWith(productRepository.findAllByLayoutId(layoutId).collectList()) // 2. 상품 목록 조회
             .flatMap(objects ->
                 Mono.just(new ProductDTO.LayoutProductAggregate(objects.getT1(), objects.getT2()))
             );
+    }
+
+    /**
+     * 레이아웃 상품 목록 조회
+     * @return LayoutProductList: 레이아웃 상품 목록
+     */
+    @Override
+    public Mono<ProductDTO.LayoutProductList> findAllLayoutProduct() {
+
+        return layoutRepository.findAll() // 1. 레이아웃 전체 조회
+            .flatMap(layout ->
+                productRepository.findAllByLayoutId(layout.getLayoutId()) // 2. 레이아웃별 상품 목록 조회
+                    .collectList()
+                    .flatMap(productList -> Mono.just(productDTOMapper.of(layout, productList)))
+            )
+            .collectList()
+            .flatMap(layoutProductInfoList -> Mono.just(new ProductDTO.LayoutProductList(layoutProductInfoList)));
     }
 }

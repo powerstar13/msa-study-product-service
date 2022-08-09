@@ -48,3 +48,11 @@ include::{snippets}/layout-product/info/{layoutId}/path-parameters.adoc[]
 === Response
 include::{snippets}/layout-product/info/{layoutId}/response-fields.adoc[]
 include::{snippets}/layout-product/info/{layoutId}/response-body.adoc[]
+
+[[layout-product-list]]
+== 레이아웃 상품 목록 조회
+=== Http
+include::{snippets}/layout-product/list/http-request.adoc[]
+=== Response
+include::{snippets}/layout-product/list/response-fields.adoc[]
+include::{snippets}/layout-product/list/response-body.adoc[]

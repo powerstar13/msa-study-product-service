@@ -66,12 +66,27 @@ class ProductFacadeTest {
 
         given(productService.layoutProductInfo(anyString())).willReturn(layoutProductInfoDTOMono());
 
-        Mono<ProductDTO.LayoutProductInfo> result = productService.layoutProductInfo(UUID.randomUUID().toString());
+        Mono<ProductDTO.LayoutProductInfo> result = productFacade.layoutProductInfo(UUID.randomUUID().toString());
 
         verify(productService).layoutProductInfo(anyString());
 
         StepVerifier.create(result.log())
             .assertNext(Assertions::assertNotNull)
+            .verifyComplete();
+    }
+
+    @DisplayName("레이아웃 상품 목록 조회")
+    @Test
+    void layoutProductList() {
+
+        given(productService.layoutProductList()).willReturn(layoutProductListDTOMono());
+
+        Mono<ProductDTO.LayoutProductList> result = productFacade.layoutProductList();
+
+        verify(productService).layoutProductList();
+
+        StepVerifier.create(result.log())
+            .assertNext(layoutProductList -> assertNotNull(layoutProductList.getLayoutProductList()))
             .verifyComplete();
     }
 }

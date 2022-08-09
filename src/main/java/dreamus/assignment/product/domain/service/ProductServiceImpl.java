@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Mono<Void> layoutProductModify(ProductCommand.LayoutProductModify command) {
 
-        return productReader.findLayoutProductAggregate(command.getLayoutId()) // 1. 레이아웃 상품 조회
+        return productReader.findLayoutProductAggregate(command.getLayoutId()) // 1. 레이아웃 상품 정보 조회
             .flatMap(layoutProductAggregate -> productStore.layoutProductModify(layoutProductAggregate, command)); // 2. 레이아웃 상품 수정
     }
 
@@ -48,7 +48,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Mono<ProductDTO.LayoutProductInfo> layoutProductInfo(String layoutId) {
 
-        return productReader.findLayoutProductAggregate(layoutId) // 레이아웃 상품 조회
+        return productReader.findLayoutProductAggregate(layoutId) // 레이아웃 상품 정보 조회
             .flatMap(layoutProductAggregate -> Mono.just(productDTOMapper.of(layoutProductAggregate.getLayout(), layoutProductAggregate.getProductList())));
+    }
+
+    /**
+     * 레이아웃 상품 목록 조회
+     * @return LayoutProductList: 레이아웃 상품 목록
+     */
+    @Override
+    public Mono<ProductDTO.LayoutProductList> layoutProductList() {
+        return productReader.findAllLayoutProduct(); // 레이아웃 상품 목록 조회
     }
 }

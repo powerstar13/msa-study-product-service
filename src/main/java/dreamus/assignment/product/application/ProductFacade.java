@@ -38,4 +38,12 @@ public class ProductFacade {
     public Mono<ProductDTO.LayoutProductInfo> layoutProductInfo(String layoutId) {
         return productService.layoutProductInfo(layoutId);
     }
+
+    /**
+     * 레이아웃 상품 목록 조회
+     * @return LayoutProductList: 레이아웃 상품 목록
+     */
+    public Mono<ProductDTO.LayoutProductList> layoutProductList() {
+        return productService.layoutProductList();
+    }
 }

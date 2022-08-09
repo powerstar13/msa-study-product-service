@@ -1,6 +1,8 @@
 package dreamus.assignment.product.domain.service;
 
+import dreamus.assignment.product.domain.Layout;
 import dreamus.assignment.product.domain.service.dto.ProductDTO;
+import dreamus.assignment.product.domain.service.dto.ProductDTOMapper;
 import dreamus.assignment.product.infrastructure.dao.LayoutRepository;
 import dreamus.assignment.product.infrastructure.dao.ProductRepository;
 import dreamus.assignment.product.infrastructure.exception.status.AlreadyDataException;
@@ -14,7 +16,7 @@ import reactor.test.StepVerifier;
 
 import static dreamus.assignment.product.infrastructure.factory.TestFactory.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -28,6 +30,8 @@ class ProductReaderTest {
     private LayoutRepository layoutRepository;
     @MockBean
     private ProductRepository productRepository;
+    @MockBean
+    private ProductDTOMapper productDTOMapper;
 
     @DisplayName("이미 존재하는 레이아웃인지 확인")
     @Test
@@ -59,7 +63,7 @@ class ProductReaderTest {
             .verify();
     }
 
-    @DisplayName("레이아웃 상품 조회")
+    @DisplayName("레이아웃 상품 정보 조회")
     @Test
     void findLayoutProductAggregate() {
 
@@ -73,6 +77,23 @@ class ProductReaderTest {
 
         StepVerifier.create(result.log())
             .assertNext(layoutProductAggregate -> assertNotNull(layoutProductAggregate.getLayout()))
+            .verifyComplete();
+    }
+
+    @DisplayName("레이아웃 상품 목록 조회")
+    @Test
+    void findAllLayoutProductAggregate() {
+
+        given(layoutRepository.findAll()).willReturn(layoutFlux());
+        given(productRepository.findAllByLayoutId(anyString())).willReturn(productFlux());
+        given(productDTOMapper.of(any(Layout.class), anyList())).willReturn(layoutProductInfoDTO());
+
+        Mono<ProductDTO.LayoutProductList> result = productReader.findAllLayoutProduct();
+
+        verify(layoutRepository).findAll();
+
+        StepVerifier.create(result.log())
+            .assertNext(layoutProductList -> assertNotNull(layoutProductList.getLayoutProductList()))
             .verifyComplete();
     }
 }

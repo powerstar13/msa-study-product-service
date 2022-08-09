@@ -41,6 +41,7 @@ public class WebFluxRouter implements WebFluxConfigurer {
             .path(RouterPathPattern.LAYOUT_PRODUCT_ROOT.getPath(), builder ->
                 builder
                     .GET(RouterPathPattern.LAYOUT_PRODUCT_INFO.getPath(), productHandler::layoutProductInfo) // 레이아웃 상품 정보 조회
+                    .GET(RouterPathPattern.LAYOUT_PRODUCT_LIST.getPath(), productHandler::layoutProductList) // 레이아웃 상품 목록 조회
             )
             .build();
     }

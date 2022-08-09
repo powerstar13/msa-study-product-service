@@ -82,4 +82,19 @@ class ProductServiceTest {
             .assertNext(Assertions::assertNotNull)
             .verifyComplete();
     }
+
+    @DisplayName("레이아웃 상품 목록 조회")
+    @Test
+    void layoutProductList() {
+
+        given(productReader.findAllLayoutProduct()).willReturn(layoutProductListDTOMono());
+
+        Mono<ProductDTO.LayoutProductList> result = productService.layoutProductList();
+
+        verify(productReader).findAllLayoutProduct();
+
+        StepVerifier.create(result.log())
+            .assertNext(layoutProductList -> assertNotNull(layoutProductList.getLayoutProductList()))
+            .verifyComplete();
+    }
 }

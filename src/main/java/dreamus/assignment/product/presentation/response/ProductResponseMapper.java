@@ -13,4 +13,6 @@ import org.mapstruct.ReportingPolicy;
 public interface ProductResponseMapper {
 
     LayoutProductInfoResponse of(ProductDTO.LayoutProductInfo layoutProductInfo);
+
+    LayoutProductListResponse of(ProductDTO.LayoutProductList layoutProductList);
 }
