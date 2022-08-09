@@ -9,6 +9,7 @@ import dreamus.assignment.product.presentation.request.LayoutProductRegisterRequ
 import dreamus.assignment.product.presentation.request.dto.ProductModifyRequestDTO;
 import dreamus.assignment.product.presentation.request.dto.ProductRegisterRequestDTO;
 import dreamus.assignment.product.presentation.response.LayoutProductInfoResponse;
+import dreamus.assignment.product.presentation.response.LayoutProductListResponse;
 import dreamus.assignment.product.presentation.response.dto.LayoutProductResponseDTO;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -39,6 +40,10 @@ public class TestFactory {
 
     public static Mono<Layout> layoutMono() {
         return Mono.just(layout());
+    }
+
+    public static Flux<Layout> layoutFlux() {
+        return Flux.just(layout(), layout());
     }
 
     public static Product product() {
@@ -187,6 +192,33 @@ public class TestFactory {
             .layoutId(UUID.randomUUID().toString())
             .name(layoutName)
             .productList(Arrays.asList(productInfoResponseDTO(), productInfoResponseDTO()))
+            .build();
+    }
+
+    public static ProductDTO.LayoutProductList layoutProductListDTO() {
+
+        return ProductDTO.LayoutProductList.builder()
+            .layoutProductList(Arrays.asList(layoutProductInfoDTO(), layoutProductInfoDTO()))
+            .build();
+    }
+
+    public static Mono<ProductDTO.LayoutProductList> layoutProductListDTOMono() {
+        return Mono.just(layoutProductListDTO());
+    }
+
+    public static LayoutProductResponseDTO.LayoutProductInfo layoutProductInfoResponseDTO() {
+
+        return LayoutProductResponseDTO.LayoutProductInfo.builder()
+            .layoutId(UUID.randomUUID().toString())
+            .name(layoutName)
+            .productList(Arrays.asList(productInfoResponseDTO(), productInfoResponseDTO()))
+            .build();
+    }
+
+    public static LayoutProductListResponse layoutProductListResponse() {
+
+        return LayoutProductListResponse.builder()
+            .layoutProductList(Arrays.asList(layoutProductInfoResponseDTO(), layoutProductInfoResponseDTO()))
             .build();
     }
 }

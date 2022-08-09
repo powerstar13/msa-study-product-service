@@ -8,6 +8,7 @@ import dreamus.assignment.product.presentation.request.LayoutProductModifyReques
 import dreamus.assignment.product.presentation.request.LayoutProductRegisterRequest;
 import dreamus.assignment.product.presentation.request.ProductRequestMapper;
 import dreamus.assignment.product.presentation.response.LayoutProductInfoResponse;
+import dreamus.assignment.product.presentation.response.LayoutProductListResponse;
 import dreamus.assignment.product.presentation.response.LayoutProductRegisterResponse;
 import dreamus.assignment.product.presentation.response.ProductResponseMapper;
 import dreamus.assignment.product.presentation.shared.WebFluxSharedHandlerTest;
@@ -35,7 +36,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
@@ -195,6 +195,53 @@ class ProductHandlerTest extends WebFluxSharedHandlerTest {
             .assertNext(response -> assertAll(() -> {
                 assertEquals(HttpStatus.OK.value(), response.getRt());
                 assertNotNull(response);
+            }))
+            .verifyComplete();
+    }
+
+    @DisplayName("레이아웃 상품 목록 조회")
+    @Test
+    void layoutProductList() {
+        // given
+        given(productFacade.layoutProductList()).willReturn(layoutProductListDTOMono());
+        given(productResponseMapper.of(any(ProductDTO.LayoutProductList.class))).willReturn(layoutProductListResponse());
+
+        // when
+        final String URI = RouterPathPattern.LAYOUT_PRODUCT_LIST.getFullPath();
+        WebTestClient.ResponseSpec result = webClient
+            .get()
+            .uri(URI)
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange();
+
+        result.expectStatus().isOk()
+            .expectBody()
+            .consumeWith(document(URI,
+                requestPrettyPrint(),
+                responsePrettyPrint(),
+                responseFields(
+                    fieldWithPath("rt").type(JsonFieldType.NUMBER).description("결과 코드"),
+                    fieldWithPath("rtMsg").type(JsonFieldType.STRING).description("결과 메시지"),
+                    fieldWithPath("layoutProductList[]").type(JsonFieldType.ARRAY).description("레이아웃 상품 목록").optional(),
+                    fieldWithPath("layoutProductList[].layoutId").type(JsonFieldType.STRING).description("레이아웃 식별키"),
+                    fieldWithPath("layoutProductList[].name").type(JsonFieldType.STRING).description("레이아웃 이름"),
+                    fieldWithPath("layoutProductList[].productList[]").type(JsonFieldType.ARRAY).description("상품 목록"),
+                    fieldWithPath("layoutProductList[].productList[].productId").type(JsonFieldType.STRING).description("상품 식별키"),
+                    fieldWithPath("layoutProductList[].productList[].name").type(JsonFieldType.STRING).description("상품명"),
+                    fieldWithPath("layoutProductList[].productList[].price").type(JsonFieldType.NUMBER).description("금액")
+                )
+            ));
+
+        FluxExchangeResult<LayoutProductListResponse> flux = result.returnResult(LayoutProductListResponse.class);
+
+        // then
+        verify(productFacade).layoutProductList();
+        verify(productResponseMapper).of(any(ProductDTO.LayoutProductList.class));
+
+        StepVerifier.create(flux.getResponseBody().log())
+            .assertNext(response -> assertAll(() -> {
+                assertEquals(HttpStatus.OK.value(), response.getRt());
+                assertNotNull(response.getLayoutProductList());
             }))
             .verifyComplete();
     }

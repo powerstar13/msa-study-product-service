@@ -77,4 +77,19 @@ public class ProductDTO {
                 + "}";
         }
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    public static class LayoutProductList {
+
+        private List<LayoutProductInfo> layoutProductList; // 레이아웃 상품 목록
+
+        @Override
+        public String toString() {
+            return "{"
+                + "\"layoutProductList\":" + layoutProductList
+                + "}";
+        }
+    }
 }

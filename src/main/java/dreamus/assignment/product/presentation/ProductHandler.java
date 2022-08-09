@@ -7,6 +7,7 @@ import dreamus.assignment.product.presentation.request.LayoutProductModifyReques
 import dreamus.assignment.product.presentation.request.LayoutProductRegisterRequest;
 import dreamus.assignment.product.presentation.request.ProductRequestMapper;
 import dreamus.assignment.product.presentation.response.LayoutProductInfoResponse;
+import dreamus.assignment.product.presentation.response.LayoutProductListResponse;
 import dreamus.assignment.product.presentation.response.LayoutProductRegisterResponse;
 import dreamus.assignment.product.presentation.response.ProductResponseMapper;
 import dreamus.assignment.product.presentation.shared.response.SuccessResponse;
@@ -87,5 +88,19 @@ public class ProductHandler {
 
         return ok().contentType(MediaType.APPLICATION_JSON)
             .body(response, LayoutProductInfoResponse.class);
+    }
+
+    /**
+     * 레이아웃 상품 목록 조회
+     * @return ServerResponse: 레이아웃 상품 목록
+     */
+    @NotNull
+    public Mono<ServerResponse> layoutProductList(ServerRequest serverRequest) {
+
+        Mono<LayoutProductListResponse> response = productFacade.layoutProductList()
+            .flatMap(layoutProductList -> Mono.just(productResponseMapper.of(layoutProductList)));
+
+        return ok().contentType(MediaType.APPLICATION_JSON)
+            .body(response, LayoutProductListResponse.class);
     }
 }

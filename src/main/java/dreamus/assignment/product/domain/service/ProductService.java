@@ -11,4 +11,6 @@ public interface ProductService {
     Mono<Void> layoutProductModify(ProductCommand.LayoutProductModify command);
 
     Mono<ProductDTO.LayoutProductInfo> layoutProductInfo(String layoutId);
+
+    Mono<ProductDTO.LayoutProductList> layoutProductList();
 }
