@@ -97,4 +97,20 @@ class ProductServiceTest {
             .assertNext(layoutProductList -> assertNotNull(layoutProductList.getLayoutProductList()))
             .verifyComplete();
     }
+
+    @DisplayName("레이아웃 상품 삭제")
+    @Test
+    void layoutProductDelete() {
+
+        given(productReader.findLayoutProductAggregate(anyString())).willReturn(layoutProductAggregateDTOMono());
+        given(productStore.layoutProductDelete(any(ProductDTO.LayoutProductAggregate.class))).willReturn(Mono.empty());
+
+        Mono<Void> result = productService.layoutProductDelete(UUID.randomUUID().toString());
+
+        verify(productReader).findLayoutProductAggregate(anyString());
+
+        StepVerifier.create(result.log())
+            .expectNextCount(0)
+            .verifyComplete();
+    }
 }

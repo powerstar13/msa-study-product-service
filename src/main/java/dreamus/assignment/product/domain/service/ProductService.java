@@ -13,4 +13,6 @@ public interface ProductService {
     Mono<ProductDTO.LayoutProductInfo> layoutProductInfo(String layoutId);
 
     Mono<ProductDTO.LayoutProductList> layoutProductList();
+
+    Mono<Void> layoutProductDelete(String layoutId);
 }

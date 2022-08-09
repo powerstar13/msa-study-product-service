@@ -88,4 +88,15 @@ public class ProductStoreImpl implements ProductStore {
                     .then();
             });
     }
+
+    /**
+     * 레이아웃 상품 삭제
+     * @param aggregate: 레이아웃 상품 애그리거트
+     */
+    @Override
+    public Mono<Void> layoutProductDelete(ProductDTO.LayoutProductAggregate aggregate) {
+
+        return productRepository.deleteAll(aggregate.getProductList()) // 1. 상품 정보 삭제
+            .then(layoutRepository.delete(aggregate.getLayout())); // 2. 레이아웃 정보 삭제
+    }
 }

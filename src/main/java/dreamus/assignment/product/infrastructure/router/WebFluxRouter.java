@@ -36,6 +36,7 @@ public class WebFluxRouter implements WebFluxConfigurer {
                     builder2
                         .POST(RouterPathPattern.LAYOUT_PRODUCT_REGISTER.getPath(), productHandler::layoutProductRegister) // 레이아웃 상품 등록
                         .PUT(RouterPathPattern.LAYOUT_PRODUCT_MODIFY.getPath(), productHandler::layoutProductModify) // 레이아웃 상품 수정
+                        .DELETE(RouterPathPattern.LAYOUT_PRODUCT_DELETE.getPath(), productHandler::layoutProductDelete) // 레이아웃 상품 삭제
                 )
             )
             .path(RouterPathPattern.LAYOUT_PRODUCT_ROOT.getPath(), builder ->

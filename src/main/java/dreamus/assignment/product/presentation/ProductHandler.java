@@ -103,4 +103,22 @@ public class ProductHandler {
         return ok().contentType(MediaType.APPLICATION_JSON)
             .body(response, LayoutProductListResponse.class);
     }
+
+    /**
+     * 레이아웃 상품 삭제
+     * @param serverRequest: 레이아웃 식별키
+     * @return ServerResponse: 처리 완료
+     */
+    @NotNull
+    public Mono<ServerResponse> layoutProductDelete(ServerRequest serverRequest) {
+
+        String layoutId = serverRequest.pathVariable("layoutId"); // 레이아웃 식별키 추출
+        if (StringUtils.isBlank(layoutId)) throw new BadRequestException(ExceptionMessage.IsRequiredLayoutId.getMessage());
+
+        return productFacade.layoutProductDelete(layoutId)
+            .then(
+                ok().contentType(MediaType.APPLICATION_JSON)
+                    .body(Mono.just(new SuccessResponse()), SuccessResponse.class)
+            );
+    }
 }

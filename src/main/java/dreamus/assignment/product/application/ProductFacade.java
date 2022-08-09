@@ -46,4 +46,12 @@ public class ProductFacade {
     public Mono<ProductDTO.LayoutProductList> layoutProductList() {
         return productService.layoutProductList();
     }
+
+    /**
+     * 레이아웃 상품 삭제
+     * @param layoutId: 레이아웃 식별키
+     */
+    public Mono<Void> layoutProductDelete(String layoutId) {
+        return productService.layoutProductDelete(layoutId);
+    }
 }
