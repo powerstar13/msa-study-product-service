@@ -1,8 +1,11 @@
 package dreamus.assignment.product.presentation;
 
 import dreamus.assignment.product.application.ProductFacade;
+import dreamus.assignment.product.application.dto.ProductCommand;
 import dreamus.assignment.product.infrastructure.router.RouterPathPattern;
-import dreamus.assignment.product.presentation.response.LayoutRegisterResponse;
+import dreamus.assignment.product.presentation.request.LayoutProductRegisterRequest;
+import dreamus.assignment.product.presentation.request.ProductRequestMapper;
+import dreamus.assignment.product.presentation.response.LayoutProductRegisterResponse;
 import dreamus.assignment.product.presentation.shared.WebFluxSharedHandlerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,12 +19,11 @@ import org.springframework.test.web.reactive.server.FluxExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.test.StepVerifier;
 
-import static dreamus.assignment.product.infrastructure.factory.TestFactory.layoutIdInfoDTOMono;
-import static dreamus.assignment.product.infrastructure.factory.TestFactory.layoutRegisterRequest;
+import static dreamus.assignment.product.infrastructure.factory.TestFactory.*;
 import static dreamus.assignment.product.infrastructure.restdocs.RestdocsDocumentUtil.requestPrettyPrint;
 import static dreamus.assignment.product.infrastructure.restdocs.RestdocsDocumentUtil.responsePrettyPrint;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -35,19 +37,23 @@ class ProductHandlerTest extends WebFluxSharedHandlerTest {
 
     @MockBean
     private ProductFacade productFacade;
+    @MockBean
+    private ProductRequestMapper productRequestMapper;
 
-    @DisplayName("레이아웃 등록")
+    @DisplayName("레이아웃 상품 등록")
     @Test
-    void layoutRegister() {
+    void layoutProductRegister() {
         // given
-        given(productFacade.layoutRegister(anyString())).willReturn(layoutIdInfoDTOMono());
+        given(productRequestMapper.of(any(LayoutProductRegisterRequest.class))).willReturn(layoutProductRegisterCommand());
+        given(productFacade.layoutProductRegister(any(ProductCommand.LayoutProductRegister.class))).willReturn(layoutIdInfoDTOMono());
 
         // when
-        final String URI = RouterPathPattern.LAYOUT_REGISTER.getFullPath();
+        final String URI = RouterPathPattern.LAYOUT_PRODUCT_REGISTER.getFullPath();
         WebTestClient.ResponseSpec result = webClient
             .post()
             .uri(URI)
-            .bodyValue(layoutRegisterRequest())
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(layoutProductRegisterRequest())
             .accept(MediaType.APPLICATION_JSON)
             .exchange();
 
@@ -57,7 +63,10 @@ class ProductHandlerTest extends WebFluxSharedHandlerTest {
                 requestPrettyPrint(),
                 responsePrettyPrint(),
                 requestFields(
-                    fieldWithPath("name").type(JsonFieldType.STRING).description("레이아웃 이름")
+                    fieldWithPath("name").type(JsonFieldType.STRING).description("레이아웃 이름"),
+                    fieldWithPath("productList[]").type(JsonFieldType.ARRAY).description("상품 목록"),
+                    fieldWithPath("productList[].name").type(JsonFieldType.STRING).description("상품명"),
+                    fieldWithPath("productList[].price").type(JsonFieldType.NUMBER).description("금액")
                 ),
                 responseFields(
                     fieldWithPath("rt").type(JsonFieldType.NUMBER).description("결과 코드"),
@@ -66,10 +75,11 @@ class ProductHandlerTest extends WebFluxSharedHandlerTest {
                 )
             ));
 
-        FluxExchangeResult<LayoutRegisterResponse> flux = result.returnResult(LayoutRegisterResponse.class);
+        FluxExchangeResult<LayoutProductRegisterResponse> flux = result.returnResult(LayoutProductRegisterResponse.class);
 
         // then
-        verify(productFacade).layoutRegister(anyString());
+        verify(productRequestMapper).of(any(LayoutProductRegisterRequest.class));
+        verify(productFacade).layoutProductRegister(any(ProductCommand.LayoutProductRegister.class));
 
         StepVerifier.create(flux.getResponseBody().log())
             .assertNext(response -> assertAll(() -> {

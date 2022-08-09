@@ -446,7 +446,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#layout-register">레이아웃 등록</a>
+<li><a href="#layout-product-register">레이아웃 상품 등록</a>
 <ul class="sectlevel2">
 <li><a href="#_http">Http</a></li>
 <li><a href="#_request">Request</a></li>
@@ -458,20 +458,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="layout-register"><a class="link" href="#layout-register">레이아웃 등록</a></h2>
+<h2 id="layout-product-register"><a class="link" href="#layout-product-register">레이아웃 상품 등록</a></h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_http"><a class="link" href="#_http">Http</a></h3>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /layout/register HTTP/1.1
-Accept: application/json
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /layout-product/register HTTP/1.1
 Content-Type: application/json
-Content-Length: 38
+Accept: application/json
+Content-Length: 169
 Host: localhost:8080
 
 {
-  "name" : "레이아웃 이름"
+  "name" : "레이아웃 이름",
+  "productList" : [ {
+    "name" : "상품명",
+    "price" : 100
+  }, {
+    "name" : "상품명",
+    "price" : 100
+  } ]
 }</code></pre>
 </div>
 </div>
@@ -502,6 +509,27 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">레이아웃 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">productList[]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상품 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">productList[].name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">상품명</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">productList[].price</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">금액</p></td>
 </tr>
 </tbody>
 </table>
@@ -554,7 +582,7 @@ Host: localhost:8080
 <pre class="highlightjs highlight nowrap"><code class="language-none hljs">{
   "rt" : 201,
   "rtMsg" : "Created",
-  "layoutId" : "142fc198-2b0d-421a-add9-074382a7590e"
+  "layoutId" : "0a13c589-8c12-4aca-af21-920bf2b2dcb2"
 }</code></pre>
 </div>
 </div>
@@ -565,7 +593,7 @@ Host: localhost:8080
 <div id="footer">
 <div id="footer-text">
 Version <br>
-Last updated 2022-08-09 11:45:59 +0900
+Last updated 2022-08-09 14:19:43 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

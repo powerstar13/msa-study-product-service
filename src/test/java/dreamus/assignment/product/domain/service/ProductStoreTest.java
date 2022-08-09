@@ -1,7 +1,9 @@
 package dreamus.assignment.product.domain.service;
 
+import dreamus.assignment.product.application.dto.ProductCommand;
 import dreamus.assignment.product.domain.Layout;
 import dreamus.assignment.product.infrastructure.dao.LayoutRepository;
+import dreamus.assignment.product.infrastructure.dao.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +12,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import static dreamus.assignment.product.infrastructure.factory.TestFactory.getLayoutName;
-import static dreamus.assignment.product.infrastructure.factory.TestFactory.layoutMono;
+import static dreamus.assignment.product.infrastructure.factory.TestFactory.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -25,21 +27,23 @@ class ProductStoreTest {
 
     @MockBean
     private LayoutRepository layoutRepository;
+    @MockBean
+    private ProductRepository productRepository;
 
-    @DisplayName("레이아웃 등록")
+    @DisplayName("레이아웃 상품 등록")
     @Test
-    void layoutRegister() {
-
-        String name = getLayoutName();
+    void layoutProductRegister() {
+        ProductCommand.LayoutProductRegister command = layoutProductRegisterCommand();
 
         given(layoutRepository.save(any(Layout.class))).willReturn(layoutMono());
+        given(productRepository.saveAll(anyList())).willReturn(productFlux());
 
-        Mono<Layout> result = productStore.layoutRegister(name);
+        Mono<Layout> result = productStore.layoutProductRegister(command);
 
         verify(layoutRepository).save(any(Layout.class));
 
         StepVerifier.create(result.log())
-            .assertNext(layout -> assertEquals(name, layout.getName()))
+            .assertNext(layout -> assertEquals(command.getName(), layout.getName()))
             .verifyComplete();
     }
 }

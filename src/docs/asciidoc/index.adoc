@@ -19,12 +19,12 @@ endif::[]
 [[title]]
 = 상품 Domain API 문서
 
-[[layout-register]]
-== 레이아웃 등록
+[[layout-product-register]]
+== 레이아웃 상품 등록
 === Http
-include::{snippets}/layout/register/http-request.adoc[]
+include::{snippets}/layout-product/register/http-request.adoc[]
 === Request
-include::{snippets}/layout/register/request-fields.adoc[]
+include::{snippets}/layout-product/register/request-fields.adoc[]
 === Response
-include::{snippets}/layout/register/response-fields.adoc[]
-include::{snippets}/layout/register/response-body.adoc[]
+include::{snippets}/layout-product/register/response-fields.adoc[]
+include::{snippets}/layout-product/register/response-body.adoc[]
