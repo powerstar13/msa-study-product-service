@@ -21,9 +21,20 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Mono<ProductDTO.LayoutIdInfo> layoutProductRegister(ProductCommand.LayoutProductRegister command) {
 
-        return productReader.layoutExistCheck(command.getName())
-            .then(productStore.layoutProductRegister(command)
+        return productReader.layoutExistCheck(command.getName()) // 1. 이미 등록된 레이아웃이 있는지 확인
+            .then(productStore.layoutProductRegister(command) // 2. 레이아웃 상품 등록
                 .flatMap(layout -> Mono.just(new ProductDTO.LayoutIdInfo(layout.getLayoutId())))
             );
+    }
+
+    /**
+     * 레이아웃 상품 수정
+     * @param command: 레이아웃 상품 정보
+     */
+    @Override
+    public Mono<Void> layoutProductModify(ProductCommand.LayoutProductModify command) {
+
+        return productReader.findLayoutProductAggregate(command.getLayoutId()) // 1. 레이아웃 상품 조회
+            .flatMap(layoutProductAggregate -> productStore.layoutProductModify(layoutProductAggregate, command)); // 2. 레이아웃 상품 수정
     }
 }

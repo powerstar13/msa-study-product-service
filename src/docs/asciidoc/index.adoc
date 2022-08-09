@@ -28,3 +28,13 @@ include::{snippets}/layout-product/register/request-fields.adoc[]
 === Response
 include::{snippets}/layout-product/register/response-fields.adoc[]
 include::{snippets}/layout-product/register/response-body.adoc[]
+
+[[layout-product-modify]]
+== 레이아웃 상품 수정
+=== Http
+include::{snippets}/layout-product/modify/http-request.adoc[]
+=== Request
+include::{snippets}/layout-product/modify/request-fields.adoc[]
+=== Response
+include::{snippets}/layout-product/modify/response-fields.adoc[]
+include::{snippets}/layout-product/modify/response-body.adoc[]

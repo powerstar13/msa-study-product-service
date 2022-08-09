@@ -21,4 +21,12 @@ public class ProductFacade {
     public Mono<ProductDTO.LayoutIdInfo> layoutProductRegister(ProductCommand.LayoutProductRegister command) {
         return productService.layoutProductRegister(command);
     }
+
+    /**
+     * 레이아웃 상품 수정
+     * @param command: 레이아웃 상품 정보
+     */
+    public Mono<Void> layoutProductModify(ProductCommand.LayoutProductModify command) {
+        return productService.layoutProductModify(command);
+    }
 }

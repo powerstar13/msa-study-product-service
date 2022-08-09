@@ -4,14 +4,16 @@ import dreamus.assignment.product.application.dto.ProductCommand;
 import dreamus.assignment.product.domain.Layout;
 import dreamus.assignment.product.domain.Product;
 import dreamus.assignment.product.domain.service.dto.ProductDTO;
+import dreamus.assignment.product.presentation.request.LayoutProductModifyRequest;
 import dreamus.assignment.product.presentation.request.LayoutProductRegisterRequest;
+import dreamus.assignment.product.presentation.request.dto.ProductModifyRequestDTO;
 import dreamus.assignment.product.presentation.request.dto.ProductRegisterRequestDTO;
-import org.apache.commons.lang3.RandomUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class TestFactory {
@@ -40,14 +42,19 @@ public class TestFactory {
     public static Product product() {
 
         return Product.builder()
+            .productId(UUID.randomUUID().toString())
             .name(productName)
             .price(productPrice)
             .layoutId(UUID.randomUUID().toString())
             .build();
     }
 
+    public static List<Product> productList() {
+        return Arrays.asList(product(), product());
+    }
+
     public static Flux<Product> productFlux() {
-        return Flux.just(product(), product());
+        return Flux.fromIterable(productList());
     }
 
     public static ProductDTO.LayoutIdInfo layoutIdInfoDTO() {
@@ -90,6 +97,54 @@ public class TestFactory {
         return LayoutProductRegisterRequest.builder()
             .name(layoutName)
             .productList(Arrays.asList(productRegisterRequestDTO(), productRegisterRequestDTO()))
+            .build();
+    }
+
+    public static ProductDTO.LayoutProductAggregate layoutProductAggregateDTO() {
+
+        return ProductDTO.LayoutProductAggregate.builder()
+            .layout(layout())
+            .productList(productList())
+            .build();
+    }
+
+    public static Mono<ProductDTO.LayoutProductAggregate> layoutProductAggregateDTOMono() {
+        return Mono.just(layoutProductAggregateDTO());
+    }
+
+    public static ProductCommand.ProductModify productModifyCommand() {
+
+        return ProductCommand.ProductModify.builder()
+            .productId(UUID.randomUUID().toString())
+            .name(productName)
+            .price(productPrice)
+            .build();
+    }
+
+    public static ProductCommand.LayoutProductModify layoutProductModifyCommand() {
+
+        return ProductCommand.LayoutProductModify.builder()
+            .layoutId(UUID.randomUUID().toString())
+            .name(layoutName)
+            .productList(Arrays.asList(productModifyCommand(), productModifyCommand()))
+            .build();
+    }
+
+    public static ProductModifyRequestDTO productModifyRequestDTO() {
+
+        return ProductModifyRequestDTO.builder()
+            .productId(UUID.randomUUID().toString())
+            .name(productName)
+            .price(productPrice)
+            .build();
+    }
+
+    public static LayoutProductModifyRequest layoutProductModifyRequest() {
+
+        return LayoutProductModifyRequest.builder()
+            .layoutId(UUID.randomUUID().toString())
+            .name(layoutName)
+            .productList(Arrays.asList(productModifyRequestDTO(), productModifyRequestDTO()))
             .build();
     }
 }

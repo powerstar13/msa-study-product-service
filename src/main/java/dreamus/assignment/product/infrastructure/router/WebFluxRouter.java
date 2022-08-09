@@ -35,6 +35,7 @@ public class WebFluxRouter implements WebFluxConfigurer {
                 builder1.nest(accept(MediaType.APPLICATION_JSON), builder2 ->
                     builder2
                         .POST(RouterPathPattern.LAYOUT_PRODUCT_REGISTER.getPath(), productHandler::layoutProductRegister) // 레이아웃 상품 등록
+                        .PUT(RouterPathPattern.LAYOUT_PRODUCT_MODIFY.getPath(), productHandler::layoutProductModify) // 레이아웃 상품 수정
                 )
             )
             .build();

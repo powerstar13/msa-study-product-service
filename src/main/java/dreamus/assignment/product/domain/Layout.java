@@ -6,11 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
-
-import java.util.List;
 
 @Getter
 @SuperBuilder
@@ -26,8 +23,9 @@ public class Layout extends CommonDateEntity { // 레이아웃
     @Column(value = "name")
     private String name; // 레이아웃 이름
 
-    @Transient
-    private List<Product> productList; // 상품 목록
+    public void modify(String name) {
+        this.name = name;
+    }
 
     @Override
     public String toString() {
@@ -35,7 +33,6 @@ public class Layout extends CommonDateEntity { // 레이아웃
             + super.toString().replace("}", "")
             + ", \"layoutId\":\"" + layoutId + "\""
             + ", \"name\":\"" + name + "\""
-            + ", \"productList\":" + productList
             + "}";
     }
 }
