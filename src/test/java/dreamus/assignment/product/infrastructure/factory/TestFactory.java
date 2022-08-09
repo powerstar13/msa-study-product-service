@@ -8,6 +8,8 @@ import dreamus.assignment.product.presentation.request.LayoutProductModifyReques
 import dreamus.assignment.product.presentation.request.LayoutProductRegisterRequest;
 import dreamus.assignment.product.presentation.request.dto.ProductModifyRequestDTO;
 import dreamus.assignment.product.presentation.request.dto.ProductRegisterRequestDTO;
+import dreamus.assignment.product.presentation.response.LayoutProductInfoResponse;
+import dreamus.assignment.product.presentation.response.dto.LayoutProductResponseDTO;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -145,6 +147,46 @@ public class TestFactory {
             .layoutId(UUID.randomUUID().toString())
             .name(layoutName)
             .productList(Arrays.asList(productModifyRequestDTO(), productModifyRequestDTO()))
+            .build();
+    }
+
+    public static ProductDTO.ProductInfo productInfoDTO() {
+
+        return ProductDTO.ProductInfo.builder()
+            .productId(UUID.randomUUID().toString())
+            .name(productName)
+            .price(productPrice)
+            .build();
+    }
+
+    public static ProductDTO.LayoutProductInfo layoutProductInfoDTO() {
+
+        return ProductDTO.LayoutProductInfo.builder()
+            .layoutId(UUID.randomUUID().toString())
+            .name(layoutName)
+            .productList(Arrays.asList(productInfoDTO(), productInfoDTO()))
+            .build();
+    }
+
+    public static Mono<ProductDTO.LayoutProductInfo> layoutProductInfoDTOMono() {
+        return Mono.just(layoutProductInfoDTO());
+    }
+
+    public static LayoutProductResponseDTO.ProductInfo productInfoResponseDTO() {
+
+        return LayoutProductResponseDTO.ProductInfo.builder()
+            .productId(UUID.randomUUID().toString())
+            .name(productName)
+            .price(productPrice)
+            .build();
+    }
+
+    public static LayoutProductInfoResponse layoutProductInfoResponse() {
+
+        return LayoutProductInfoResponse.builder()
+            .layoutId(UUID.randomUUID().toString())
+            .name(layoutName)
+            .productList(Arrays.asList(productInfoResponseDTO(), productInfoResponseDTO()))
             .build();
     }
 }

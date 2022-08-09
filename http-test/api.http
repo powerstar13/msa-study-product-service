@@ -48,3 +48,8 @@ Accept: application/json
     }
   ]
 }
+
+### 레이아웃 상품 정보 조회
+// 레이아웃 상품 등록 API를 통해 얻은 {layoutId} 사용
+GET http://localhost:8080/layout-product/info/{{layoutId}}
+Accept: application/json
