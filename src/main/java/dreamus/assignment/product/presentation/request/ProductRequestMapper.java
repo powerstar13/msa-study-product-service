@@ -13,4 +13,6 @@ import org.mapstruct.ReportingPolicy;
 public interface ProductRequestMapper {
 
     ProductCommand.LayoutProductRegister of(LayoutProductRegisterRequest request);
+
+    ProductCommand.LayoutProductModify of(LayoutProductModifyRequest request);
 }

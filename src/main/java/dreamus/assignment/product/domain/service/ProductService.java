@@ -7,4 +7,6 @@ import reactor.core.publisher.Mono;
 public interface ProductService {
 
     Mono<ProductDTO.LayoutIdInfo> layoutProductRegister(ProductCommand.LayoutProductRegister command);
+
+    Mono<Void> layoutProductModify(ProductCommand.LayoutProductModify command);
 }

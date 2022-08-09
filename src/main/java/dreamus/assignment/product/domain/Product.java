@@ -29,6 +29,11 @@ public class Product extends CommonDateEntity { // 상품
     @Column(value = "layoutId")
     private String layoutId; // 레이아웃 식별키
 
+    public void modify(String name, int price) {
+        this.name = name;
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "{"

@@ -11,8 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
-import static dreamus.assignment.product.infrastructure.factory.TestFactory.layoutIdInfoDTOMono;
-import static dreamus.assignment.product.infrastructure.factory.TestFactory.layoutProductRegisterCommand;
+import static dreamus.assignment.product.infrastructure.factory.TestFactory.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -39,6 +38,21 @@ class ProductFacadeTest {
 
         StepVerifier.create(result.log())
             .assertNext(layoutIdInfo -> assertNotNull(layoutIdInfo.getLayoutId()))
+            .verifyComplete();
+    }
+
+    @DisplayName("레이아웃 상품 수정")
+    @Test
+    void layoutProductModify() {
+
+        given(productService.layoutProductModify(any(ProductCommand.LayoutProductModify.class))).willReturn(Mono.empty());
+
+        Mono<Void> result = productFacade.layoutProductModify(layoutProductModifyCommand());
+
+        verify(productService).layoutProductModify(any(ProductCommand.LayoutProductModify.class));
+
+        StepVerifier.create(result.log())
+            .expectNextCount(0)
             .verifyComplete();
     }
 }

@@ -2,6 +2,7 @@ package dreamus.assignment.product.domain.service;
 
 import dreamus.assignment.product.application.dto.ProductCommand;
 import dreamus.assignment.product.domain.Layout;
+import dreamus.assignment.product.domain.Product;
 import dreamus.assignment.product.infrastructure.dao.LayoutRepository;
 import dreamus.assignment.product.infrastructure.dao.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -44,6 +45,23 @@ class ProductStoreTest {
 
         StepVerifier.create(result.log())
             .assertNext(layout -> assertEquals(command.getName(), layout.getName()))
+            .verifyComplete();
+    }
+
+    @DisplayName("레이아웃 상품 수정")
+    @Test
+    void layoutProductModify() {
+
+        given(layoutRepository.save(any(Layout.class))).willReturn(layoutMono());
+        given(productRepository.delete(any(Product.class))).willReturn(Mono.empty());
+        given(productRepository.saveAll(anyList())).willReturn(productFlux());
+
+        Mono<Void> result = productStore.layoutProductModify(layoutProductAggregateDTO(), layoutProductModifyCommand());
+
+        verify(layoutRepository).save(any(Layout.class));
+
+        StepVerifier.create(result.log())
+            .expectNextCount(0)
             .verifyComplete();
     }
 }
