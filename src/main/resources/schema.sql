@@ -1,7 +1,9 @@
 CREATE TABLE IF NOT EXISTS layout
 (
-    `layoutId`    VARCHAR(36)     NOT NULL    COMMENT '레이아웃 식별키',
-    `name`        VARCHAR(45)     NOT NULL    COMMENT '레이아웃 이름',
+    `layoutId`      VARCHAR(36)     NOT NULL    COMMENT '레이아웃 식별키',
+    `name`          VARCHAR(45)     NOT NULL    COMMENT '레이아웃 이름',
+    `createdAt`     TIMESTAMP       NOT NULL    DEFAULT CURRENT_TIMESTAMP COMMENT '생성일',
+    `updatedAt`     TIMESTAMP       NULL        DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일',
     PRIMARY KEY (layoutId)
 );
 
@@ -11,6 +13,8 @@ CREATE TABLE IF NOT EXISTS product
     `name`          VARCHAR(45)     NOT NULL    COMMENT '상품명',
     `price`         INT             NOT NULL    COMMENT '금액',
     `layoutId`      VARCHAR(36)     NOT NULL    COMMENT '레이아웃 식별키',
+    `createdAt`     TIMESTAMP       NOT NULL    DEFAULT CURRENT_TIMESTAMP COMMENT '생성일',
+    `updatedAt`     TIMESTAMP       NULL        DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일',
     PRIMARY KEY (productId),
     CONSTRAINT FK_product_layoutId_layout_layoutId FOREIGN KEY (layoutId)
         REFERENCES layout (layoutId) ON DELETE RESTRICT ON UPDATE RESTRICT
