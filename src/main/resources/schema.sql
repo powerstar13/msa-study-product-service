@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS product
 (
     `productId`     VARCHAR(36)     NOT NULL    DEFAULT UUID() COMMENT '상품 식별키',
     `name`          VARCHAR(45)     NOT NULL    COMMENT '상품명',
-    `price`         INT             NOT NULL    COMMENT '금액',
+    `price`         INT             NOT NULL    DEFAULT 0 COMMENT '금액',
     `layoutId`      VARCHAR(36)     NOT NULL    COMMENT '레이아웃 식별키',
     `createdAt`     TIMESTAMP       NOT NULL    DEFAULT CURRENT_TIMESTAMP COMMENT '생성일',
     `updatedAt`     TIMESTAMP       NULL        DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '수정일',

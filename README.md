@@ -1,4 +1,4 @@
-# 💵 상품서버
+# 💵 상품 서비스
 
 `Dreamus 과제`
 
@@ -37,3 +37,15 @@
 ## 🔑 [API Test](./http-test/api.http)
 
 `API를 실행할 수 있는 http test 파일입니다.`
+
+---
+
+# 💡 마이크로서비스 모델링
+
+![마이크로서비스 모델링](./public/dreamus-assignment-domain-model.png)
+
+# 💠 ERD 설계
+
+![ERD 설계](./public/dreamus-assignment-erd.png)
+
+---
