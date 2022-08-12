@@ -43,9 +43,6 @@ class ProductServiceTest {
 
         Mono<ProductDTO.LayoutIdInfo> result = productService.layoutProductRegister(layoutProductRegisterCommand());
 
-        verify(productReader).layoutExistCheck(anyString());
-        verify(productStore).layoutProductRegister(any(ProductCommand.LayoutProductRegister.class));
-
         StepVerifier.create(result.log())
             .assertNext(layoutIdInfo -> assertNotNull(layoutIdInfo.getLayoutId()))
             .verifyComplete();
@@ -59,8 +56,6 @@ class ProductServiceTest {
         given(productStore.layoutProductModify(any(ProductDTO.LayoutProductAggregate.class), any(ProductCommand.LayoutProductModify.class))).willReturn(Mono.empty());
 
         Mono<Void> result = productService.layoutProductModify(layoutProductModifyCommand());
-
-        verify(productReader).findLayoutProductAggregate(anyString());
 
         StepVerifier.create(result.log())
             .expectNextCount(0)
@@ -76,8 +71,6 @@ class ProductServiceTest {
 
         Mono<ProductDTO.LayoutProductInfo> result = productService.layoutProductInfo(UUID.randomUUID().toString());
 
-        verify(productReader).findLayoutProductAggregate(anyString());
-
         StepVerifier.create(result.log())
             .assertNext(Assertions::assertNotNull)
             .verifyComplete();
@@ -90,8 +83,6 @@ class ProductServiceTest {
         given(productReader.findAllLayoutProduct()).willReturn(layoutProductListDTOMono());
 
         Mono<ProductDTO.LayoutProductList> result = productService.layoutProductList();
-
-        verify(productReader).findAllLayoutProduct();
 
         StepVerifier.create(result.log())
             .assertNext(layoutProductList -> assertNotNull(layoutProductList.getLayoutProductList()))
@@ -106,8 +97,6 @@ class ProductServiceTest {
         given(productStore.layoutProductDelete(any(ProductDTO.LayoutProductAggregate.class))).willReturn(Mono.empty());
 
         Mono<Void> result = productService.layoutProductDelete(UUID.randomUUID().toString());
-
-        verify(productReader).findLayoutProductAggregate(anyString());
 
         StepVerifier.create(result.log())
             .expectNextCount(0)

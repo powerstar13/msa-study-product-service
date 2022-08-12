@@ -5,6 +5,7 @@ import dreamus.assignment.product.domain.service.dto.ProductDTO;
 import dreamus.assignment.product.domain.service.dto.ProductDTOMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -21,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
      * @return 레이아웃 식별키
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Mono<ProductDTO.LayoutIdInfo> layoutProductRegister(ProductCommand.LayoutProductRegister command) {
 
         return productReader.layoutExistCheck(command.getName()) // 1. 이미 등록된 레이아웃이 있는지 확인
@@ -34,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
      * @param command: 레이아웃 상품 정보
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Mono<Void> layoutProductModify(ProductCommand.LayoutProductModify command) {
 
         return productReader.findLayoutProductAggregate(command.getLayoutId()) // 1. 레이아웃 상품 정보 조회
@@ -46,6 +49,7 @@ public class ProductServiceImpl implements ProductService {
      * @return LayoutProductInfo: 레이아웃 상품 정보
      */
     @Override
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
     public Mono<ProductDTO.LayoutProductInfo> layoutProductInfo(String layoutId) {
 
         return productReader.findLayoutProductAggregate(layoutId) // 레이아웃 상품 정보 조회
@@ -57,6 +61,7 @@ public class ProductServiceImpl implements ProductService {
      * @return LayoutProductList: 레이아웃 상품 목록
      */
     @Override
+    @Transactional(rollbackFor = Exception.class, readOnly = true)
     public Mono<ProductDTO.LayoutProductList> layoutProductList() {
         return productReader.findAllLayoutProduct(); // 레이아웃 상품 목록 조회
     }
@@ -66,6 +71,7 @@ public class ProductServiceImpl implements ProductService {
      * @param layoutId: 레이아웃 식별키
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Mono<Void> layoutProductDelete(String layoutId) {
 
         return productReader.findLayoutProductAggregate(layoutId) // 1. 레이아웃 상품 정보 조회
