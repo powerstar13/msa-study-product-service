@@ -45,8 +45,8 @@ public class ProductReaderImpl implements ProductReader {
         return layoutRepository.findById(layoutId) // 1. 레이아웃 정보 조회
             .switchIfEmpty(Mono.error(new NotFoundDataException(ExceptionMessage.NotFoundLayout.getMessage())))
             .zipWith(productRepository.findAllByLayoutId(layoutId).collectList()) // 2. 상품 목록 조회
-            .flatMap(objects ->
-                Mono.just(new ProductDTO.LayoutProductAggregate(objects.getT1(), objects.getT2()))
+            .map(objects ->
+                new ProductDTO.LayoutProductAggregate(objects.getT1(), objects.getT2())
             );
     }
 
@@ -61,9 +61,9 @@ public class ProductReaderImpl implements ProductReader {
             .flatMap(layout ->
                 productRepository.findAllByLayoutId(layout.getLayoutId()) // 2. 레이아웃별 상품 목록 조회
                     .collectList()
-                    .flatMap(productList -> Mono.just(productDTOMapper.of(layout, productList)))
+                    .map(productList -> productDTOMapper.of(layout, productList))
             )
             .collectList()
-            .flatMap(layoutProductInfoList -> Mono.just(new ProductDTO.LayoutProductList(layoutProductInfoList)));
+            .map(ProductDTO.LayoutProductList::new);
     }
 }

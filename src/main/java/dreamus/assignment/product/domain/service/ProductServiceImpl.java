@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
 
         return productReader.layoutExistCheck(command.getName()) // 1. 이미 등록된 레이아웃이 있는지 확인
             .then(productStore.layoutProductRegister(command) // 2. 레이아웃 상품 등록
-                .flatMap(layout -> Mono.just(new ProductDTO.LayoutIdInfo(layout.getLayoutId())))
+                .map(layout -> new ProductDTO.LayoutIdInfo(layout.getLayoutId()))
             );
     }
 
@@ -53,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
     public Mono<ProductDTO.LayoutProductInfo> layoutProductInfo(String layoutId) {
 
         return productReader.findLayoutProductAggregate(layoutId) // 레이아웃 상품 정보 조회
-            .flatMap(layoutProductAggregate -> Mono.just(productDTOMapper.of(layoutProductAggregate.getLayout(), layoutProductAggregate.getProductList())));
+            .map(layoutProductAggregate -> productDTOMapper.of(layoutProductAggregate.getLayout(), layoutProductAggregate.getProductList()));
     }
 
     /**

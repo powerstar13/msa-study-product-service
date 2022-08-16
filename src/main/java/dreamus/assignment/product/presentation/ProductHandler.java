@@ -6,21 +6,18 @@ import dreamus.assignment.product.infrastructure.exception.status.ExceptionMessa
 import dreamus.assignment.product.presentation.request.LayoutProductModifyRequest;
 import dreamus.assignment.product.presentation.request.LayoutProductRegisterRequest;
 import dreamus.assignment.product.presentation.request.ProductRequestMapper;
-import dreamus.assignment.product.presentation.response.LayoutProductInfoResponse;
-import dreamus.assignment.product.presentation.response.LayoutProductListResponse;
 import dreamus.assignment.product.presentation.response.LayoutProductRegisterResponse;
 import dreamus.assignment.product.presentation.response.ProductResponseMapper;
-import dreamus.assignment.product.presentation.shared.response.SuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import static org.springframework.web.reactive.function.server.ServerResponse.ok;
+import static dreamus.assignment.product.presentation.shared.response.ServerResponseFactory.successBodyValue;
+import static dreamus.assignment.product.presentation.shared.response.ServerResponseFactory.successOnly;
 
 @Component
 @RequiredArgsConstructor
@@ -38,17 +35,14 @@ public class ProductHandler {
     @NotNull
     public Mono<ServerResponse> layoutProductRegister(ServerRequest serverRequest) {
 
-        Mono<LayoutProductRegisterResponse> response = serverRequest.bodyToMono(LayoutProductRegisterRequest.class)
+        return serverRequest.bodyToMono(LayoutProductRegisterRequest.class)
             .switchIfEmpty(Mono.error(new BadRequestException(ExceptionMessage.IsRequiredRequest.getMessage())))
             .flatMap(request -> {
                 request.verify(); // Request 유효성 검사
 
                 return productFacade.layoutProductRegister(productRequestMapper.of(request));
             })
-            .flatMap(layoutIdInfo -> Mono.just(new LayoutProductRegisterResponse(layoutIdInfo.getLayoutId())));
-
-        return ok().contentType(MediaType.APPLICATION_JSON)
-            .body(response, LayoutProductRegisterResponse.class);
+            .flatMap(response -> successBodyValue(new LayoutProductRegisterResponse(response.getLayoutId())));
     }
 
     /**
@@ -65,10 +59,7 @@ public class ProductHandler {
                 request.verify(); // Request 유효성 검사
 
                 return productFacade.layoutProductModify(productRequestMapper.of(request))
-                    .then(
-                        ok().contentType(MediaType.APPLICATION_JSON)
-                            .body(Mono.just(new SuccessResponse()), SuccessResponse.class)
-                    );
+                    .then(successOnly());
             });
     }
 
@@ -83,11 +74,8 @@ public class ProductHandler {
         String layoutId = serverRequest.pathVariable("layoutId"); // 레이아웃 식별키 추출
         if (StringUtils.isBlank(layoutId)) throw new BadRequestException(ExceptionMessage.IsRequiredLayoutId.getMessage());
 
-        Mono<LayoutProductInfoResponse> response = productFacade.layoutProductInfo(layoutId)
-            .flatMap(layoutProductInfo -> Mono.just(productResponseMapper.of(layoutProductInfo)));
-
-        return ok().contentType(MediaType.APPLICATION_JSON)
-            .body(response, LayoutProductInfoResponse.class);
+        return productFacade.layoutProductInfo(layoutId)
+            .flatMap(response -> successBodyValue(productResponseMapper.of(response)));
     }
 
     /**
@@ -97,11 +85,8 @@ public class ProductHandler {
     @NotNull
     public Mono<ServerResponse> layoutProductList(ServerRequest serverRequest) {
 
-        Mono<LayoutProductListResponse> response = productFacade.layoutProductList()
-            .flatMap(layoutProductList -> Mono.just(productResponseMapper.of(layoutProductList)));
-
-        return ok().contentType(MediaType.APPLICATION_JSON)
-            .body(response, LayoutProductListResponse.class);
+        return productFacade.layoutProductList()
+            .flatMap(response -> successBodyValue(productResponseMapper.of(response)));
     }
 
     /**
@@ -116,9 +101,6 @@ public class ProductHandler {
         if (StringUtils.isBlank(layoutId)) throw new BadRequestException(ExceptionMessage.IsRequiredLayoutId.getMessage());
 
         return productFacade.layoutProductDelete(layoutId)
-            .then(
-                ok().contentType(MediaType.APPLICATION_JSON)
-                    .body(Mono.just(new SuccessResponse()), SuccessResponse.class)
-            );
+            .then(successOnly());
     }
 }
