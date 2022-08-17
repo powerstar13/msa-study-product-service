@@ -6,7 +6,6 @@ import dreamus.assignment.product.domain.Product;
 import dreamus.assignment.product.domain.service.ProductStore;
 import dreamus.assignment.product.domain.service.dto.ProductDTO;
 import dreamus.assignment.product.infrastructure.exception.status.ExceptionMessage;
-import dreamus.assignment.product.infrastructure.exception.status.RegisterFailException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -31,14 +30,14 @@ public class ProductStoreImpl implements ProductStore {
     public Mono<Layout> layoutProductRegister(ProductCommand.LayoutProductRegister command) {
 
         return layoutRepository.save(command.toEntity())
-            .switchIfEmpty(Mono.error(new RegisterFailException(ExceptionMessage.RegisterFailLayout.getMessage())))
+            .switchIfEmpty(Mono.error(ExceptionMessage.RegisterFailLayout.getException()))
             .flatMap(layout -> {
                 List<Product> productList = command.getProductList().stream()
                     .map(productRegister -> productRegister.toEntity(layout.getLayoutId()))
                     .collect(Collectors.toList());
 
                 return productRepository.saveAll(productList)
-                    .switchIfEmpty(Mono.error(new RegisterFailException(ExceptionMessage.RegisterFailProduct.getMessage())))
+                    .switchIfEmpty(Mono.error(ExceptionMessage.RegisterFailProduct.getException()))
                     .then(Mono.just(layout));
             });
     }

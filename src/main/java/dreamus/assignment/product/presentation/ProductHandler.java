@@ -36,7 +36,7 @@ public class ProductHandler {
     public Mono<ServerResponse> layoutProductRegister(ServerRequest serverRequest) {
 
         return serverRequest.bodyToMono(LayoutProductRegisterRequest.class)
-            .switchIfEmpty(Mono.error(new BadRequestException(ExceptionMessage.IsRequiredRequest.getMessage())))
+            .switchIfEmpty(Mono.error(ExceptionMessage.IsRequiredRequest.getException()))
             .flatMap(request -> {
                 request.verify(); // Request 유효성 검사
 
@@ -54,7 +54,7 @@ public class ProductHandler {
     public Mono<ServerResponse> layoutProductModify(ServerRequest serverRequest) {
 
         return serverRequest.bodyToMono(LayoutProductModifyRequest.class)
-            .switchIfEmpty(Mono.error(new BadRequestException(ExceptionMessage.IsRequiredRequest.getMessage())))
+            .switchIfEmpty(Mono.error(ExceptionMessage.IsRequiredRequest.getException()))
             .flatMap(request -> {
                 request.verify(); // Request 유효성 검사
 
@@ -72,7 +72,7 @@ public class ProductHandler {
     public Mono<ServerResponse> layoutProductInfo(ServerRequest serverRequest) {
 
         String layoutId = serverRequest.pathVariable("layoutId"); // 레이아웃 식별키 추출
-        if (StringUtils.isBlank(layoutId)) throw new BadRequestException(ExceptionMessage.IsRequiredLayoutId.getMessage());
+        if (StringUtils.isBlank(layoutId)) throw ExceptionMessage.IsRequiredLayoutId.getException();
 
         return productFacade.layoutProductInfo(layoutId)
             .flatMap(response -> successBodyValue(productResponseMapper.of(response)));
@@ -98,7 +98,7 @@ public class ProductHandler {
     public Mono<ServerResponse> layoutProductDelete(ServerRequest serverRequest) {
 
         String layoutId = serverRequest.pathVariable("layoutId"); // 레이아웃 식별키 추출
-        if (StringUtils.isBlank(layoutId)) throw new BadRequestException(ExceptionMessage.IsRequiredLayoutId.getMessage());
+        if (StringUtils.isBlank(layoutId)) throw ExceptionMessage.IsRequiredLayoutId.getException();
 
         return productFacade.layoutProductDelete(layoutId)
             .then(successOnly());

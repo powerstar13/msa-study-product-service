@@ -3,9 +3,7 @@ package dreamus.assignment.product.infrastructure.dao;
 import dreamus.assignment.product.domain.service.ProductReader;
 import dreamus.assignment.product.domain.service.dto.ProductDTO;
 import dreamus.assignment.product.domain.service.dto.ProductDTOMapper;
-import dreamus.assignment.product.infrastructure.exception.status.AlreadyDataException;
 import dreamus.assignment.product.infrastructure.exception.status.ExceptionMessage;
-import dreamus.assignment.product.infrastructure.exception.status.NotFoundDataException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -28,7 +26,7 @@ public class ProductReaderImpl implements ProductReader {
         return layoutRepository.findByName(name)
             .hasElement()
             .flatMap(aBoolean -> {
-                if (aBoolean) return Mono.error(new AlreadyDataException(ExceptionMessage.AlreadyDataLayout.getMessage()));
+                if (aBoolean) return Mono.error(ExceptionMessage.AlreadyDataLayout.getException());
 
                 return Mono.empty();
             });
@@ -43,7 +41,7 @@ public class ProductReaderImpl implements ProductReader {
     public Mono<ProductDTO.LayoutProductAggregate> findLayoutProductAggregate(String layoutId) {
 
         return layoutRepository.findById(layoutId) // 1. 레이아웃 정보 조회
-            .switchIfEmpty(Mono.error(new NotFoundDataException(ExceptionMessage.NotFoundLayout.getMessage())))
+            .switchIfEmpty(Mono.error(ExceptionMessage.NotFoundLayout.getException()))
             .zipWith(productRepository.findAllByLayoutId(layoutId).collectList()) // 2. 상품 목록 조회
             .map(objects ->
                 new ProductDTO.LayoutProductAggregate(objects.getT1(), objects.getT2())

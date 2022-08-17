@@ -1,6 +1,5 @@
 package dreamus.assignment.product.presentation.request.dto;
 
-import dreamus.assignment.product.infrastructure.exception.status.BadRequestException;
 import dreamus.assignment.product.infrastructure.exception.status.ExceptionMessage;
 import dreamus.assignment.product.presentation.shared.request.RequestVerify;
 import lombok.AllArgsConstructor;
@@ -20,8 +19,8 @@ public class ProductRegisterRequestDTO implements RequestVerify {
 
     @Override
     public void verify() {
-        if (StringUtils.isBlank(name)) throw new BadRequestException(ExceptionMessage.IsRequiredProductName.getMessage());
-        if (price == null || price < 0) throw new BadRequestException(ExceptionMessage.IsRequiredProductPrice.getMessage());
+        if (StringUtils.isBlank(name)) throw ExceptionMessage.IsRequiredProductName.getException();
+        if (price == null || price < 0) throw ExceptionMessage.IsRequiredProductPrice.getException();
     }
 
     @Override

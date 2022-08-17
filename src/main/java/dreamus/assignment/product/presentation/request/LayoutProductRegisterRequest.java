@@ -23,8 +23,8 @@ public class LayoutProductRegisterRequest implements RequestVerify {
 
     @Override
     public void verify() {
-        if (StringUtils.isBlank(name)) throw new BadRequestException(ExceptionMessage.IsRequiredLayoutName.getMessage());
-        if (productList == null)  throw new BadRequestException(ExceptionMessage.IsRequiredProductInfo.getMessage());
+        if (StringUtils.isBlank(name)) throw ExceptionMessage.IsRequiredLayoutName.getException();
+        if (productList == null)  throw ExceptionMessage.IsRequiredProductInfo.getException();
         productList.forEach(ProductRegisterRequestDTO::verify); // 상품 정보 Request 유효성 검사
     }
 
