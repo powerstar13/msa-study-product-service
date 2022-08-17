@@ -40,7 +40,8 @@ dependencies {
     // StringUtils
     implementation 'org.apache.commons:commons-lang3:3.12.0'
 
-    // R2DBC & H2
+    // R2DBC & Proxy & H2
+    implementation 'io.r2dbc:r2dbc-proxy:1.0.0.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc:2.7.2'
     implementation 'com.h2database:h2:2.1.214'
     implementation 'io.r2dbc:r2dbc-h2:0.9.1.RELEASE'
