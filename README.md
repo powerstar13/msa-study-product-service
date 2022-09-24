@@ -20,7 +20,7 @@
 1. 상품 서비스 실행
     ```shell
     # 여기서 `./`은 README 경로 위치를 기준으로 작성함
-    java -jar ./app/product-product.jar
+    java -jar ./app/msa-study-product.jar
     ```
 
 ## ❤️ IntelliJ를 사용할 경우
