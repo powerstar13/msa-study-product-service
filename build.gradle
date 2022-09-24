@@ -5,7 +5,7 @@ plugins {
     id 'java'
 }
 
-group = 'dreamus.assignment'
+group = 'msa.study'
 version = ''
 sourceCompatibility = '11'
 
@@ -23,7 +23,7 @@ repositories {
 ext {
     set('snippetsDir', file("build/generated-snippets")) // 아래에서 사용할 변수 선언
     set('docsDir', file("src/main/resources/static/docs"))
-    set('buildJar', file("build/libs/dreamus-assignment-product.jar"))
+    set('buildJar', file("build/libs/msa-study-product.jar"))
     set('outDir', file("app"))
 }
 

@@ -1,6 +1,6 @@
 # 💵 상품 서비스
 
-`Dreamus 과제`
+`MSA 공부`
 
 ---
 
@@ -20,7 +20,7 @@
 1. 상품 서비스 실행
     ```shell
     # 여기서 `./`은 README 경로 위치를 기준으로 작성함
-    java -jar ./app/dreamus-assignment-product.jar
+    java -jar ./app/product-product.jar
     ```
 
 ## ❤️ IntelliJ를 사용할 경우
@@ -42,10 +42,10 @@
 
 # 💡 마이크로서비스 모델링
 
-![마이크로서비스 모델링](./public/dreamus-assignment-domain-model.png)
+![마이크로서비스 모델링](./public/product-domain-model.png)
 
 # 💠 ERD 설계
 
-![ERD 설계](./public/dreamus-assignment-erd.png)
+![ERD 설계](./public/product-erd.png)
 
 ---
